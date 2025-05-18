@@ -20,7 +20,7 @@ namespace MyQueenMySelf.Planet
 
             transform.rotation = Quaternion.Euler(0, 0, _currentAngle * Mathf.Rad2Deg);
 
-            if (_currentAngle > 2 * Math.PI || _currentAngle < -2 * Math.PI)
+            if (_currentAngle > 2 * Math.PI || _currentAngle < 0)
             {
                 _currentAngle = _currentAngle % (2 * Mathf.PI);
                 if (_currentAngle < 0)
