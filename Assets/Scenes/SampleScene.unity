@@ -742,9 +742,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8f4240a78eef44fb4d27621be00cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputReader: {fileID: 11400000, guid: bf242eded5a371748a632e6d4ad9ffbe, type: 2}
   _planet: {fileID: 606181458}
   _radius: 56
-  _currentAngle: 0
+  _speed: 0.005
 --- !u!1 &1880575030
 GameObject:
   m_ObjectHideFlags: 0
