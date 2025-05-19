@@ -1,5 +1,6 @@
 using System;
 using MyQueenMySelf.Input;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MyQueenMySelf.Planet
@@ -11,12 +12,16 @@ namespace MyQueenMySelf.Planet
         [SerializeField] int _radius;
         [SerializeField] float _speed = 1f;
 
+        Animator _animator;
+
         float _currentAngle = 0.0f;
-
         float _angleOffset = ((float)Math.PI) * (1.0f / 2.0f);
-
-
         float _currentMoveDirection = 0f;
+
+        void Awake()
+        {
+            _animator = GetComponentInChildren<Animator>();
+        }
 
         void Start()
         {
@@ -25,7 +30,7 @@ namespace MyQueenMySelf.Planet
 
         void Update()
         {
-            _currentAngle += _currentMoveDirection * -_speed;
+            _currentAngle += _currentMoveDirection * _speed * Time.deltaTime;
 
             float x = (_radius * Mathf.Cos(_currentAngle + _angleOffset)) + _planet.transform.position.x;
             float y = (_radius * Mathf.Sin(_currentAngle + _angleOffset)) + _planet.transform.position.y;
@@ -45,7 +50,27 @@ namespace MyQueenMySelf.Planet
 
         void HandleMove(Vector2 direction)
         {
-            _currentMoveDirection = direction.x;
+            _currentMoveDirection = -direction.x;
+
+            Vector3 scale = _animator.transform.localScale;
+            if (_currentMoveDirection < 0)
+            {
+                scale.x = -1;
+            }
+            else if (_currentMoveDirection > 0)
+            {
+                scale.x = 1;
+            }
+            _animator.transform.localScale = scale;
+
+            if (_currentMoveDirection == 0)
+            {
+                _animator.SetBool("isWalking", false);
+            }
+            else
+            {
+                _animator.SetBool("isWalking", true);
+            }
         }
     }
 }

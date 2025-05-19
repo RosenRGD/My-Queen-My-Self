@@ -57,7 +57,6 @@ namespace MyQueenMySelf.Input
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            Debug.Log($"Phase: {context.phase}, value: {context.ReadValue<Vector2>()}");
             MoveEvent?.Invoke(context.ReadValue<Vector2>());
         }
 
