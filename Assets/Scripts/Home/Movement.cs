@@ -10,8 +10,6 @@ namespace MyQueenMySelf.Home
         [SerializeField] InputReader _inputReader;
         [SerializeField] GameObject _ground;
         [SerializeField] float _speed = 1f;
-        [SerializeField] LayerMask obstacleLayer;
-        [SerializeField] float collisionRadius = 0.1f;
 
         Animator _animator;
         Rigidbody2D _rb;
