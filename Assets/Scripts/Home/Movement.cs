@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MyQueenMySelf.Input;
 using UnityEngine;
 
@@ -9,62 +10,89 @@ namespace MyQueenMySelf.Home
         [SerializeField] InputReader _inputReader;
         [SerializeField] GameObject _ground;
         [SerializeField] float _speed = 1f;
+        [SerializeField] LayerMask obstacleLayer;
+        [SerializeField] float collisionRadius = 0.1f;
 
         Animator _animator;
+        Rigidbody2D _rb;
         Vector2 _moveDirection = new Vector2(0, 0);
+        Obstacle[] _obstacles;
 
         void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            _rb = GetComponent<Rigidbody2D>();
         }
 
         void Start()
         {
             _inputReader.MoveEvent += HandleMove;
+            _obstacles = FindObjectsByType<Obstacle>(FindObjectsSortMode.None);
         }
 
-        
-
-        void Update()
+        void FixedUpdate()
         {
             if (_moveDirection.x != 0 || _moveDirection.y != 0)
             {
-                Vector2 amountToMove = _moveDirection * _speed * Time.deltaTime;
+                Vector2 amountToMove = _moveDirection * (_speed * Time.fixedDeltaTime);
 
-                transform.position = new Vector3(transform.position.x + amountToMove.x, transform.position.y + amountToMove.y, transform.position.z);
+                Vector2 targetPosition = _rb.position + amountToMove;
+
+                _rb.MovePosition(targetPosition);
+                // bool isBlocked = Physics2D.OverlapCircle(targetPosition, collisionRadius, obstacleLayer);
+
+                // if (!isBlocked)
+                // {
+                //     transform.position = targetPosition;
+                // }
             }
-            
         }
 
         void HandleMove(Vector2 direction)
         {
             _moveDirection = direction;
+            UpdateAnimation(direction);
+        }
 
+        void UpdateAnimation(Vector2 direction)
+        {
             if (Mathf.Abs(direction.y) > 0)
             {
                 _animator.SetBool("isWalking", true);
                 _animator.SetBool("isHorizontal", false);
-                if (direction.y >= 0)
+
+                Vector3 scale = _animator.transform.localScale;
+
+                scale.x = 1;
+                if (direction.y > 0)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    scale.y = 1;
                 }
-                else
+                else if (direction.y < 0)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                    scale.y = -1;
                 }
+
+                _animator.transform.localScale = scale;
             }
             else if (Mathf.Abs(direction.x) > 0)
             {
                 _animator.SetBool("isWalking", true);
                 _animator.SetBool("isHorizontal", true);
-                if (direction.x >= 0)
+
+                Vector3 scale = _animator.transform.localScale;
+
+                scale.y = 1;
+                if (direction.x > 0)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    scale.x = 1;
                 }
-                else
+                else if (direction.x < 0)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                    scale.x = -1;
                 }
+
+                _animator.transform.localScale = scale;
             }
             else
             {
