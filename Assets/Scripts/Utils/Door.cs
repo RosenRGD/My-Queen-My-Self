@@ -11,4 +11,14 @@ public class Door : MonoBehaviour, IInteractable
     {
 
     }
+
+    public void OpenTooltip()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void CloseTooltip()
+    {
+        throw new System.NotImplementedException();
+    }
 }

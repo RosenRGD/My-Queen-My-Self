@@ -10,6 +10,8 @@ namespace MyQueenMySelf.Utils
             _sceneLoader = GetComponent<SceneLoader>();
         }
 
+        
+
 
     }
 }
