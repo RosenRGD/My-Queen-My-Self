@@ -1,3 +1,4 @@
+using MyQueenMySelf.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,23 @@ namespace MyQueenMySelf.UI
         {
             _images = GetComponentsInChildren<Image>();
             _text = GetComponentInChildren<TextMeshProUGUI>();
+        }
+
+        void Start()
+        {
+            TurnOffTooltip();   
+        }
+
+        void OnEnable()
+        {
+            InteractManager.Instance.OnTooltipEnterEvent += TurnOnTooltip;
+            InteractManager.Instance.OnTooltipExitEvent += TurnOffTooltip;
+        }
+
+        void OnDisable()
+        {
+            InteractManager.Instance.OnTooltipEnterEvent -= TurnOnTooltip;
+            InteractManager.Instance.OnTooltipExitEvent -= TurnOffTooltip;
         }
 
         public void TurnOnTooltip(string tooltipText)

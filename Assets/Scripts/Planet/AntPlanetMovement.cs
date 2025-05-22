@@ -1,6 +1,6 @@
 using System;
 using MyQueenMySelf.Input;
-using Unity.VisualScripting;
+using MyQueenMySelf.Utils;
 using UnityEngine;
 
 namespace MyQueenMySelf.Planet
@@ -14,6 +14,8 @@ namespace MyQueenMySelf.Planet
 
         Animator _animator;
 
+        Interactable _currentInteractable = null;
+
         float _currentAngle = 0.0f;
         float _angleOffset = ((float)Math.PI) * (1.0f / 2.0f);
         float _currentMoveDirection = 0f;
@@ -23,10 +25,19 @@ namespace MyQueenMySelf.Planet
             _animator = GetComponentInChildren<Animator>();
         }
 
-        void Start()
+        void OnEnable()
         {
             _inputReader.MoveEvent += HandleMove;
+            _inputReader.InteractEvent += HandleInteract;
         }
+
+        void OnDisable()
+        {
+            _inputReader.MoveEvent -= HandleMove;
+            _inputReader.InteractEvent -= HandleInteract;
+        }
+
+
 
         void Update()
         {
@@ -70,6 +81,42 @@ namespace MyQueenMySelf.Planet
             else
             {
                 _animator.SetBool("isWalking", true);
+            }
+        }
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            Interactable interactable = collision.GetComponent<Interactable>();
+            if (interactable)
+            {
+                _currentInteractable.OpenTooltip();
+                _currentInteractable = interactable;
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D collision)
+        {
+            Interactable interactable = collision.GetComponent<Interactable>();
+            if (interactable == _currentInteractable)
+            {
+                _currentInteractable.CloseTooltip();
+                _currentInteractable = null;
+            }
+        }
+
+        void HandleInteract()
+        {
+            if (_currentInteractable != null)
+            {
+                MonoBehaviour[] components = _currentInteractable.GetComponents<MonoBehaviour>();
+
+                foreach (MonoBehaviour comp in components)
+                {
+                    if (comp is IInteractable interactable)
+                    {
+                        interactable.Interact();
+                    }
+                }
             }
         }
     }

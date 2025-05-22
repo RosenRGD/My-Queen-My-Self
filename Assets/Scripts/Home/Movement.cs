@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MyQueenMySelf.Input;
+using MyQueenMySelf.Utils;
 using UnityEngine;
 
 namespace MyQueenMySelf.Home
@@ -16,6 +17,8 @@ namespace MyQueenMySelf.Home
         Vector2 _moveDirection = new Vector2(0, 0);
         Obstacle[] _obstacles;
 
+        Interactable _currentInteractable = null;
+
         void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
@@ -24,8 +27,19 @@ namespace MyQueenMySelf.Home
 
         void Start()
         {
-            _inputReader.MoveEvent += HandleMove;
             _obstacles = FindObjectsByType<Obstacle>(FindObjectsSortMode.None);
+        }
+
+        void OnEnable()
+        {
+            _inputReader.MoveEvent += HandleMove;
+            _inputReader.InteractEvent += HandleInteract;
+        }
+
+        void OnDisable()
+        {
+            _inputReader.MoveEvent -= HandleMove;
+            _inputReader.InteractEvent -= HandleInteract;
         }
 
         void FixedUpdate()
@@ -95,6 +109,43 @@ namespace MyQueenMySelf.Home
             else
             {
                 _animator.SetBool("isWalking", false);
+            }
+        }
+
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            Interactable interactable = collision.GetComponent<Interactable>();
+            if (interactable)
+            {
+                interactable.OpenTooltip();
+                _currentInteractable = interactable;
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D collision)
+        {
+            Interactable interactable = collision.GetComponent<Interactable>();
+            if (interactable == _currentInteractable && interactable)
+            {
+                _currentInteractable.CloseTooltip();
+                _currentInteractable = null;
+
+            }
+        }
+
+        void HandleInteract()
+        {
+            if (_currentInteractable != null)
+            {
+                MonoBehaviour[] components = _currentInteractable.GetComponents<MonoBehaviour>();
+
+                foreach (MonoBehaviour comp in components)
+                {
+                    if (comp is IInteractable interactable)
+                    {
+                        interactable.Interact();
+                    }
+                }
             }
         }
     }
