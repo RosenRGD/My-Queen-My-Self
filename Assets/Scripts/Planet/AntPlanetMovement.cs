@@ -89,7 +89,7 @@ namespace MyQueenMySelf.Planet
             Interactable interactable = collision.GetComponent<Interactable>();
             if (interactable)
             {
-                _currentInteractable.OpenTooltip();
+                interactable.OpenTooltip();
                 _currentInteractable = interactable;
             }
         }

@@ -55,12 +55,12 @@ namespace MyQueenMySelf.Utils
 
         public void TooltipEnter(string promptText)
         {
-            OnTooltipEnterEvent.Invoke(promptText);
+            OnTooltipEnterEvent?.Invoke(promptText);
         }
 
         public void TooltipExit()
         {
-            OnTooltipExitEvent.Invoke();
+            OnTooltipExitEvent?.Invoke();
         }
     }
 }

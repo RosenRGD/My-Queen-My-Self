@@ -7,17 +7,13 @@ namespace MyQueenMySelf.UI
 {
     public class TooltipManager : MonoBehaviour
     {
-        TextMeshProUGUI _text;
+        public TextMeshProUGUI _text;
         Image[] _images;
 
         void Awake()
         {
-            _images = GetComponentsInChildren<Image>();
-            _text = GetComponentInChildren<TextMeshProUGUI>();
-        }
-
-        void Start()
-        {
+            _images = GetComponentsInChildren<Image>(true);
+            _text = GetComponentInChildren<TextMeshProUGUI>(true);
             TurnOffTooltip();   
         }
 
