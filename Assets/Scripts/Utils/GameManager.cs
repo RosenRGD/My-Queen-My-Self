@@ -33,11 +33,6 @@ namespace MyQueenMySelf.Utils
 
         private static bool _isShuttingDown = false;
 
-        SceneLoader _sceneLoader;
-
-        bool hasGardened = false;
-        bool hasGatheredSolar = false;
-
         enum TodoItemName
         {
             Garden,
@@ -62,8 +57,6 @@ namespace MyQueenMySelf.Utils
                 Destroy(gameObject);
             }
 
-            _sceneLoader = GetComponent<SceneLoader>();
-
             _todoItems[TodoItemName.Garden] = new TodoItem("Harvest/Plant Garden");
             _todoItems[TodoItemName.CollectSolar] = new TodoItem("Collect the solar energy");
             _todoItems[TodoItemName.DepositSolar] = new TodoItem("Deposit the solar energy");
@@ -78,8 +71,10 @@ namespace MyQueenMySelf.Utils
 
         public bool HarvestGarden()
         {
+            Debug.Log("Trying to garden");
             if (!_todoItems[TodoItemName.Garden].IsCompleted)
             {
+                Debug.Log("Gardened!");
                 _todoItems[TodoItemName.Garden].IsCompleted = true;
                 OnTodoListUpdated?.Invoke();
                 return true;

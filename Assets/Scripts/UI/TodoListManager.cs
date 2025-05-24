@@ -11,23 +11,24 @@ namespace MyQueenMySelf.UI
 
 		List<GameObject> _todoItems = new();
 
-        void Start()
-        {
-			UpdateTodoList();
-        }
-
-        void OnEnable()
+		void Start()
 		{
+			UpdateTodoList();
+		}
 
+		void OnEnable()
+		{
+			GameManager.Instance.OnTodoListUpdated += UpdateTodoList;
 		}
 
 		void OnDisable()
 		{
-
+			GameManager.Instance.OnTodoListUpdated -= UpdateTodoList;
 		}
 
 		void UpdateTodoList()
 		{
+			ClearTodoList();
 			foreach (TodoItem todoItem in GameManager.Instance.GetTodoItems())
 			{
 				GameObject textGameObject = Instantiate(_textPrefab, transform);
@@ -43,7 +44,15 @@ namespace MyQueenMySelf.UI
 				}
 				_todoItems.Add(textGameObject);
 			}
-        } 
+		}
+
+		void ClearTodoList()
+		{
+			foreach (GameObject child in _todoItems)
+			{
+				Destroy(child);
+			}
+		}
 
     }
 }

@@ -1,0 +1,13 @@
+using UnityEngine;
+
+namespace MyQueenMySelf.Utils
+{
+    [RequireComponent(typeof(Interactable))]
+    public class Bed : MonoBehaviour, IInteractable
+    {
+        public void Interact()
+        {
+			GameManager.Instance.Sleep();
+        }
+    }
+}

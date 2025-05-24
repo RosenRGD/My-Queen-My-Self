@@ -48,7 +48,7 @@ namespace MyQueenMySelf.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""PauseGameplay"",
                     ""type"": ""Button"",
                     ""id"": ""02b08e91-2c39-46ad-9bdf-90e3f73d49e2"",
                     ""expectedControlType"": """",
@@ -131,7 +131,7 @@ namespace MyQueenMySelf.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""PauseGameplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -164,6 +164,54 @@ namespace MyQueenMySelf.Input
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Dialogue"",
+            ""id"": ""e3088438-46a8-4e86-8b17-813fcf76bc34"",
+            ""actions"": [
+                {
+                    ""name"": ""PauseDialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""30d2d773-b59e-4713-bd6e-8b0f7ffb5465"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Proceed"",
+                    ""type"": ""Button"",
+                    ""id"": ""932db8e0-70a8-44a3-b409-9ee84984b90c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""50fcd23b-f17f-4909-8882-10ae2817b75a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f9a978e-3e22-412f-8b51-37c1307cb2f6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Proceed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -172,16 +220,21 @@ namespace MyQueenMySelf.Input
             m_Planet = asset.FindActionMap("Planet", throwIfNotFound: true);
             m_Planet_Move = m_Planet.FindAction("Move", throwIfNotFound: true);
             m_Planet_Interact = m_Planet.FindAction("Interact", throwIfNotFound: true);
-            m_Planet_Pause = m_Planet.FindAction("Pause", throwIfNotFound: true);
+            m_Planet_PauseGameplay = m_Planet.FindAction("PauseGameplay", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Resume = m_UI.FindAction("Resume", throwIfNotFound: true);
+            // Dialogue
+            m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
+            m_Dialogue_PauseDialogue = m_Dialogue.FindAction("PauseDialogue", throwIfNotFound: true);
+            m_Dialogue_Proceed = m_Dialogue.FindAction("Proceed", throwIfNotFound: true);
         }
 
         ~@GameInput()
         {
             UnityEngine.Debug.Assert(!m_Planet.enabled, "This will cause a leak and performance issues, GameInput.Planet.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, GameInput.UI.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Dialogue.enabled, "This will cause a leak and performance issues, GameInput.Dialogue.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -245,14 +298,14 @@ namespace MyQueenMySelf.Input
         private List<IPlanetActions> m_PlanetActionsCallbackInterfaces = new List<IPlanetActions>();
         private readonly InputAction m_Planet_Move;
         private readonly InputAction m_Planet_Interact;
-        private readonly InputAction m_Planet_Pause;
+        private readonly InputAction m_Planet_PauseGameplay;
         public struct PlanetActions
         {
             private @GameInput m_Wrapper;
             public PlanetActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Planet_Move;
             public InputAction @Interact => m_Wrapper.m_Planet_Interact;
-            public InputAction @Pause => m_Wrapper.m_Planet_Pause;
+            public InputAction @PauseGameplay => m_Wrapper.m_Planet_PauseGameplay;
             public InputActionMap Get() { return m_Wrapper.m_Planet; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -268,9 +321,9 @@ namespace MyQueenMySelf.Input
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
+                @PauseGameplay.started += instance.OnPauseGameplay;
+                @PauseGameplay.performed += instance.OnPauseGameplay;
+                @PauseGameplay.canceled += instance.OnPauseGameplay;
             }
 
             private void UnregisterCallbacks(IPlanetActions instance)
@@ -281,9 +334,9 @@ namespace MyQueenMySelf.Input
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
-                @Pause.started -= instance.OnPause;
-                @Pause.performed -= instance.OnPause;
-                @Pause.canceled -= instance.OnPause;
+                @PauseGameplay.started -= instance.OnPauseGameplay;
+                @PauseGameplay.performed -= instance.OnPauseGameplay;
+                @PauseGameplay.canceled -= instance.OnPauseGameplay;
             }
 
             public void RemoveCallbacks(IPlanetActions instance)
@@ -347,15 +400,74 @@ namespace MyQueenMySelf.Input
             }
         }
         public UIActions @UI => new UIActions(this);
+
+        // Dialogue
+        private readonly InputActionMap m_Dialogue;
+        private List<IDialogueActions> m_DialogueActionsCallbackInterfaces = new List<IDialogueActions>();
+        private readonly InputAction m_Dialogue_PauseDialogue;
+        private readonly InputAction m_Dialogue_Proceed;
+        public struct DialogueActions
+        {
+            private @GameInput m_Wrapper;
+            public DialogueActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+            public InputAction @PauseDialogue => m_Wrapper.m_Dialogue_PauseDialogue;
+            public InputAction @Proceed => m_Wrapper.m_Dialogue_Proceed;
+            public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(DialogueActions set) { return set.Get(); }
+            public void AddCallbacks(IDialogueActions instance)
+            {
+                if (instance == null || m_Wrapper.m_DialogueActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_DialogueActionsCallbackInterfaces.Add(instance);
+                @PauseDialogue.started += instance.OnPauseDialogue;
+                @PauseDialogue.performed += instance.OnPauseDialogue;
+                @PauseDialogue.canceled += instance.OnPauseDialogue;
+                @Proceed.started += instance.OnProceed;
+                @Proceed.performed += instance.OnProceed;
+                @Proceed.canceled += instance.OnProceed;
+            }
+
+            private void UnregisterCallbacks(IDialogueActions instance)
+            {
+                @PauseDialogue.started -= instance.OnPauseDialogue;
+                @PauseDialogue.performed -= instance.OnPauseDialogue;
+                @PauseDialogue.canceled -= instance.OnPauseDialogue;
+                @Proceed.started -= instance.OnProceed;
+                @Proceed.performed -= instance.OnProceed;
+                @Proceed.canceled -= instance.OnProceed;
+            }
+
+            public void RemoveCallbacks(IDialogueActions instance)
+            {
+                if (m_Wrapper.m_DialogueActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IDialogueActions instance)
+            {
+                foreach (var item in m_Wrapper.m_DialogueActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_DialogueActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public DialogueActions @Dialogue => new DialogueActions(this);
         public interface IPlanetActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
-            void OnPause(InputAction.CallbackContext context);
+            void OnPauseGameplay(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
             void OnResume(InputAction.CallbackContext context);
+        }
+        public interface IDialogueActions
+        {
+            void OnPauseDialogue(InputAction.CallbackContext context);
+            void OnProceed(InputAction.CallbackContext context);
         }
     }
 }
