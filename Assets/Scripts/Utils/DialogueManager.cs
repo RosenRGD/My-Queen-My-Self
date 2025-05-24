@@ -9,33 +9,11 @@ namespace MyQueenMySelf.Utils
 {
 	public class DialogueManager : MonoBehaviour
 	{
-		private static DialogueManager instance;
-
-		public static DialogueManager Instance
-		{
-			get
-			{
-				if (_isShuttingDown) return null;
-
-				if (instance == null)
-				{
-					instance = FindFirstObjectByType<DialogueManager>();
-
-					if (instance == null)
-					{
-						GameObject singleton = new GameObject(typeof(DialogueManager).ToString());
-						instance = singleton.AddComponent<DialogueManager>();
-						DontDestroyOnLoad(singleton);
-					}
-				}
-				return instance;
-			}
-		}
-
-		private static bool _isShuttingDown = false;
-
 		[SerializeField] Image _namePanel;
 		[SerializeField] Image _textPanel;
+
+		[SerializeField] Image _tvImage;
+
 		[SerializeField] InputReader _inputReader;
 		[SerializeField] float _timeBetweenCharacterAppearing;
 
@@ -47,26 +25,18 @@ namespace MyQueenMySelf.Utils
 
 		void Awake()
 		{
-			if (instance == null)
-			{
-				instance = this;
-				DontDestroyOnLoad(gameObject);
-			}
-			else if (instance != this)
-			{
-				Destroy(gameObject);
-			}
-
 			_nameText = _namePanel.GetComponentInChildren<TextMeshProUGUI>();
 			_lineText = _textPanel.GetComponentInChildren<TextMeshProUGUI>();
+
+			_namePanel.gameObject.SetActive(false);
+			_textPanel.gameObject.SetActive(false);
+ 
+			_tvImage.gameObject.SetActive(false);
 		}
 
-		void OnApplicationQuit()
-		{
-			_isShuttingDown = true;
-		}
 
-		void OnEnable()
+
+        void OnEnable()
 		{
 			_inputReader.ProceedEvent += UpdateHasProceeded;
         }
@@ -76,14 +46,28 @@ namespace MyQueenMySelf.Utils
             _inputReader.ProceedEvent -= UpdateHasProceeded;
         }
 
+		public void StartQueenDialogue(Dialogue dialogue)
+		{
+			StartCoroutine(PlayQueenDialogue(dialogue));
+		}
+
         public void StartDialogue(Dialogue dialogue)
 		{
 			StartCoroutine(PlayDialogue(dialogue));
 		}
 
+		IEnumerator PlayQueenDialogue(Dialogue dialogue)
+		{
+			_tvImage.gameObject.SetActive(true);
+			yield return PlayDialogue(dialogue);
+			_tvImage.gameObject.SetActive(false);
+		}
+
 		IEnumerator PlayDialogue(Dialogue dialogue)
 		{
 			_inputReader.SetDialogue();
+			_namePanel.gameObject.SetActive(true);
+			_textPanel.gameObject.SetActive(true);
 			foreach (Line line in dialogue.GetAllLines())
 			{
 				yield return DisplayLine(line);
@@ -93,6 +77,8 @@ namespace MyQueenMySelf.Utils
 				}
 				_hasProceeded = false;
 			}
+			_namePanel.gameObject.SetActive(false);
+			_textPanel.gameObject.SetActive(false);
 			_inputReader.SetGameplay();
 		}
 
@@ -116,6 +102,8 @@ namespace MyQueenMySelf.Utils
 				yield return new WaitForSeconds(_timeBetweenCharacterAppearing);
 			}
 		}
+
+
 
 		void UpdateHasProceeded()
 		{

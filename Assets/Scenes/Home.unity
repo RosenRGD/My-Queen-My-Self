@@ -284,25 +284,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 46, y: 70}
   m_EdgeRadius: 0
---- !u!1 &310979903 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7617550274728975797, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-  m_PrefabInstance: {fileID: 7656967115759965516}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &310979907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310979903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
 --- !u!1 &351995619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,14 +1718,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 6062925122106696560, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6062925122106696560, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6674502516144977329, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -1837,25 +1810,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7843795778488929410, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1.4000244
-      objectReference: {fileID: 0}
-    - target: {fileID: 8179713531366216421, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 14.400024
-      objectReference: {fileID: 0}
-    - target: {fileID: 8179713531366216421, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 9.400002
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7617550274728975797, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 310979907}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ee6cc9610fb94940bd3f980dec6fd09, type: 3}
 --- !u!1001 &8942233276715551689
 PrefabInstance:

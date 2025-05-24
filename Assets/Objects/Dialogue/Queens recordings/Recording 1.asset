@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08cc22da46cd0404ab11feca102b7c7c, type: 3}
+  m_Name: Recording 1
+  m_EditorClassIdentifier: 
+  dialogue:
+  - Speaker: Queen
+    Text: Hello My Children!
+  - Speaker: '-'
+    Text: Chittering erupts through the crowds
+  - Speaker: Crowd
+    Text: Ch-Ch-Ch!
+  - Speaker: Queen
+    Text: It's another beautiful day in Thexria!
+  - Speaker: Queen
+    Text: Today we mark the 2nd anniversary of the battle of Oldtide.
+  - Speaker: Queen
+    Text: The day those filthy animals tried to take over our righteous lands.
+  - Speaker: '-'
+    Text: The crowd starts stomping in anger.
+  - Speaker: Queen
+    Text: But, where are they now!
+  - Speaker: Queen
+    Text: Dead, all of them!
+  - Speaker: '-'
+    Text: The crowd starts screeching in support.
+  - Speaker: Queen
+    Text: When food is scarce what do we do?
+  - Speaker: Crowd
+    Text: Huuunt-ch-ch-ch!
+  - Speaker: Queen
+    Text: When enemies hunt our brood what do we do?
+  - Speaker: Crowd
+    Text: Keeell!-ch-ch-ch!
+  - Speaker: Queen
+    Text: When a person dares to challenge the Thexrian empire what do we do?
+  - Speaker: Crowd
+    Text: Wiiiin!-ch-ch-ch!
+  - Speaker: Queen
+    Text: From the tops of the snowy Garall mountains to the shallow Oldtide waters
+      and all across the Thexrian empire, I am wishing you a Glorious Day!
+  - Speaker: Crowd
+    Text: '*screech screech screech*'

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MyQueenMySelf.Utils
 {
@@ -45,6 +46,23 @@ namespace MyQueenMySelf.Utils
         Dictionary<TodoItemName, TodoItem> _todoItems = new Dictionary<TodoItemName, TodoItem>();
         public Action OnTodoListUpdated;
 
+        DialogueManager _dialogueManager;
+        [SerializeField] Dialogue _alreadyGardenedDialogue;
+        [SerializeField] Dialogue _alreadyGatheredSolarDialogue;
+        [SerializeField] Dialogue _alreadyDepositedSolarDialogue;
+        [SerializeField] Dialogue _alreadyWatchedTVDialogue;
+        [SerializeField] Dialogue _iNeedGatherSolar;
+        [SerializeField] Dialogue _iNeedWorkDone;
+        [SerializeField] Dialogue _iNeedWatchTV;
+
+        [SerializeField] List<Dialogue> _queenRecordings;
+        [SerializeField] List<Dialogue> _startDialogue;
+
+        bool hadFirstDialogue = false;
+
+        List<bool> successes = new();
+        [SerializeField] int _currentDay = 1;
+
         void Awake()
         {
             if (instance == null)
@@ -69,18 +87,42 @@ namespace MyQueenMySelf.Utils
             _isShuttingDown = true;
         }
 
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        void Start()
+        {
+            _dialogueManager = FindFirstObjectByType<DialogueManager>();
+            if (!hadFirstDialogue)
+            {
+                _dialogueManager.StartDialogue(_startDialogue[_currentDay - 1]);
+                hadFirstDialogue = true;
+            }
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            _dialogueManager = FindFirstObjectByType<DialogueManager>();
+        }
+
         public bool HarvestGarden()
         {
-            Debug.Log("Trying to garden");
             if (!_todoItems[TodoItemName.Garden].IsCompleted)
             {
-                Debug.Log("Gardened!");
                 _todoItems[TodoItemName.Garden].IsCompleted = true;
                 OnTodoListUpdated?.Invoke();
                 return true;
             }
             else
             {
+                _dialogueManager.StartDialogue(_alreadyGardenedDialogue);
                 return false;
             }
         }
@@ -95,6 +137,7 @@ namespace MyQueenMySelf.Utils
             }
             else
             {
+                _dialogueManager.StartDialogue(_alreadyGatheredSolarDialogue);
                 return false;
             }
         }
@@ -107,8 +150,14 @@ namespace MyQueenMySelf.Utils
                 OnTodoListUpdated?.Invoke();
                 return true;
             }
+            else if (_todoItems[TodoItemName.DepositSolar].IsCompleted)
+            {
+                _dialogueManager.StartDialogue(_alreadyDepositedSolarDialogue);
+                return false;
+            }
             else
             {
+                _dialogueManager.StartDialogue(_iNeedGatherSolar);
                 return false;
             }
         }
@@ -122,18 +171,24 @@ namespace MyQueenMySelf.Utils
             {
                 _todoItems[TodoItemName.WatchTV].IsCompleted = true;
                 OnTodoListUpdated?.Invoke();
+                _dialogueManager.StartQueenDialogue(_queenRecordings[_currentDay - 1]);
                 return true;
+            }
+            else if (_todoItems[TodoItemName.DepositSolar].IsCompleted)
+            {
+                _dialogueManager.StartDialogue(_alreadyWatchedTVDialogue);
+                return false;
             }
             else
             {
+                _dialogueManager.StartDialogue(_iNeedWorkDone);
                 return false;
             }
         }
 
         public bool Sleep()
         {
-            if (!_todoItems[TodoItemName.Sleep].IsCompleted &&
-                _todoItems[TodoItemName.Garden].IsCompleted &&
+            if (_todoItems[TodoItemName.Garden].IsCompleted &&
                 _todoItems[TodoItemName.CollectSolar].IsCompleted &&
                 _todoItems[TodoItemName.DepositSolar].IsCompleted &&
                 _todoItems[TodoItemName.WatchTV].IsCompleted)
@@ -144,6 +199,7 @@ namespace MyQueenMySelf.Utils
             }
             else
             {
+                _dialogueManager.StartDialogue(_iNeedWatchTV);
                 return false;
             }
         }
@@ -156,6 +212,11 @@ namespace MyQueenMySelf.Utils
                 todoItems.Add(_todoItems[todoItemName]);
             }
             return todoItems;
+        }
+
+        void StartDream()
+        {
+            
         }
     }
 

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08cc22da46cd0404ab11feca102b7c7c, type: 3}
+  m_Name: Recording 7
+  m_EditorClassIdentifier: 
+  dialogue:
+  - Speaker: Queen
+    Text: My children!
+  - Speaker: Queen
+    Text: I need you!
+  - Speaker: Queen
+    Text: Today we are recruiting all roles regarding the energy extraction.
+  - Speaker: Queen
+    Text: We need pilots and engineers.
+  - Speaker: Queen
+    Text: This job will be the greatest honour.
+  - Speaker: Queen
+    Text: To stand on the frontier of innovation for the Thexrian empire.
+  - Speaker: Queen
+    Text: It would be a privilege.
+  - Speaker: Queen
+    Text: From the tops of the snowy Garall mountains to the shallow Oldtide waters
+      and all across the Thexrian empire, I am wishing you a Glorious Day!
