@@ -59,8 +59,13 @@ namespace MyQueenMySelf.Utils
         [SerializeField] List<Dialogue> _startDialogue;
 
         bool hadFirstDialogue = false;
+        bool isInDream = false;
+        public bool IsInDream
+        {
+            get { return isInDream; }
+        }
 
-        List<bool> successes = new();
+        bool[] _successes = new bool[8];
         [SerializeField] int _currentDay = 1;
 
         void Awake()
@@ -97,19 +102,14 @@ namespace MyQueenMySelf.Utils
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        void Start()
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             _dialogueManager = FindFirstObjectByType<DialogueManager>();
-            if (!hadFirstDialogue)
+            if (!hadFirstDialogue && !isInDream)
             {
                 _dialogueManager.StartDialogue(_startDialogue[_currentDay - 1]);
                 hadFirstDialogue = true;
             }
-        }
-
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            _dialogueManager = FindFirstObjectByType<DialogueManager>();
         }
 
         public bool HarvestGarden()
@@ -195,6 +195,7 @@ namespace MyQueenMySelf.Utils
             {
                 _todoItems[TodoItemName.Sleep].IsCompleted = true;
                 OnTodoListUpdated?.Invoke();
+                StartDream();
                 return true;
             }
             else
@@ -216,7 +217,49 @@ namespace MyQueenMySelf.Utils
 
         void StartDream()
         {
-            
+            isInDream = true;
+            SceneLoader.Instance.LoadDreamScene(_currentDay);
+        }
+
+        public void EndDream(bool isSuccess)
+        {
+            _successes[_currentDay - 1] = isSuccess;
+            _currentDay += 1;
+            if (_currentDay < 8)
+            {
+                ResetForNewDay();
+                SceneLoader.Instance.LoadHomeScene();
+            }
+            else
+            {
+                ManageEndScene();
+            }
+        }
+
+        void ResetForNewDay()
+        {
+            isInDream = false;
+            hadFirstDialogue = false;
+            foreach (KeyValuePair<TodoItemName, TodoItem> entry in _todoItems)
+            {
+                entry.Value.IsCompleted = false;
+            }
+        }
+
+        void ManageEndScene()
+        {
+            int amountOfWins = 0;
+            foreach (bool win in _successes)
+            {
+                if (win)
+                {
+                    amountOfWins += 1;
+                }
+                else
+                {
+                    amountOfWins += 1;
+                }
+            }
         }
     }
 

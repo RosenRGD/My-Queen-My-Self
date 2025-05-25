@@ -14,6 +14,10 @@ namespace MyQueenMySelf.UI
 		void Start()
 		{
 			UpdateTodoList();
+			if (GameManager.Instance.IsInDream)
+			{
+				gameObject.SetActive(false);
+			}
 		}
 
 		void OnEnable()

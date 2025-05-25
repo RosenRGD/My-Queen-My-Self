@@ -7,7 +7,7 @@ namespace MyQueenMySelf.Utils
     public class SceneLoader : MonoBehaviour
     {
         private static SceneLoader instance;
-    
+
         public static SceneLoader Instance
         {
             get
@@ -30,6 +30,8 @@ namespace MyQueenMySelf.Utils
         }
 
         private static bool _isShuttingDown = false;
+
+
         private void OnApplicationQuit()
         {
             _isShuttingDown = true;
@@ -48,7 +50,7 @@ namespace MyQueenMySelf.Utils
             }
         }
 
-        
+
         [SerializeField] string planetScene;
         [SerializeField] string homeScene;
         [SerializeField] List<string> dreamScenes;
@@ -60,9 +62,14 @@ namespace MyQueenMySelf.Utils
         }
 
         public void LoadHomeScene()
-        {   
+        {
             SceneManager.LoadScene(homeScene);
-        } 
+        }
+
+        public void LoadDreamScene(int currentDay)
+        {
+            SceneManager.LoadScene(dreamScenes[currentDay - 1]);
+        }
     }
 }
 

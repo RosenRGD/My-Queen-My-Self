@@ -86,7 +86,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetScene: Planet
   homeScene: Home
-  dreamScenes: []
+  dreamScenes:
+  - Dream1
+  - Dream2
+  - Dream3
+  - Dream4
+  - Dream5
+  - Dream6
+  - Dream7
+  - Dream8
 --- !u!114 &8652194007169467484
 MonoBehaviour:
   m_ObjectHideFlags: 0

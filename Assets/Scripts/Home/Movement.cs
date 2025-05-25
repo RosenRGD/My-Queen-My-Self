@@ -9,7 +9,6 @@ namespace MyQueenMySelf.Home
     public class Movement : MonoBehaviour
     {
         [SerializeField] InputReader _inputReader;
-        [SerializeField] GameObject _ground;
         [SerializeField] float _speed = 1f;
 
         Animator _animator;

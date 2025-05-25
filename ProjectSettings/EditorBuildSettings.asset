@@ -11,6 +11,30 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Home.unity
     guid: 9def4ab5c118dc747bf72af8bc44fffc
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream1.unity
+    guid: 015cae6b42001934baa95bb47f051661
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream2.unity
+    guid: cbfef6d310b9a07449fb40c1626b97d0
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream3.unity
+    guid: 6ed9c5c5482953f4290ac93017cd4909
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream4.unity
+    guid: 03540f8897188b8429a98214e1afd185
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream5.unity
+    guid: 40d6a97f0f15d394a8daa4f66fbf97e5
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream6.unity
+    guid: 54cba6a6e48a55042a88d18eb95d2670
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream7.unity
+    guid: 62dd82e3a64848e45a08f9ab565f7a1e
+  - enabled: 1
+    path: Assets/Scenes/Dreams/Dream8.unity
+    guid: c84d2bd7356530a489773463eb28b53a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
