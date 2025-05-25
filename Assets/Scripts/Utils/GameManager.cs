@@ -260,6 +260,25 @@ namespace MyQueenMySelf.Utils
                     amountOfWins += 1;
                 }
             }
+
+            if (amountOfWins >= 7)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        void LoadWinScene()
+        {
+
+        }
+
+        void LoadFailScene()
+        {
+            
         }
     }
 
