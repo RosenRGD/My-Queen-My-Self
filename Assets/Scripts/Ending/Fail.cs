@@ -20,6 +20,8 @@ namespace MyQueenMySelf.Ending
 			DialogueManager dialogueManager = FindFirstObjectByType<DialogueManager>();
 			yield return dialogueManager.PlayDialogue(_endingDialogue);
 			yield return fadeInFadeOut.FadingIn();
+			SceneLoader.Instance.LoadMenuScene();
+			MusicManager.Instance.PlayMenuTrack();
 		}
     }
 }

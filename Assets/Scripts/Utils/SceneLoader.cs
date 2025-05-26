@@ -57,6 +57,7 @@ namespace MyQueenMySelf.Utils
         [SerializeField] List<string> _dreamScenes;
         [SerializeField] string _winScene;
         [SerializeField] string _failScene;
+        [SerializeField] string _menuScene;
 
 
         public void LoadPlanetScene()
@@ -82,6 +83,11 @@ namespace MyQueenMySelf.Utils
         public void LoadWinScene()
         {
             SceneManager.LoadScene(_winScene);
+        }
+
+        internal void LoadMenuScene()
+        {
+            SceneManager.LoadScene(_menuScene);
         }
     }
 }

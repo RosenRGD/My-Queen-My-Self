@@ -15,11 +15,14 @@ namespace MyQueenMySelf.Ending
 
 		IEnumerator PlayEnding()
 		{
+			MusicManager.Instance.PlayWinTrack();
 			FadeInFadeOut fadeInFadeOut = FindFirstObjectByType<FadeInFadeOut>();
 			yield return fadeInFadeOut.FadingOut();
 			DialogueManager dialogueManager = FindFirstObjectByType<DialogueManager>();
 			yield return dialogueManager.PlayDialogue(_endingDialogue);
 			yield return fadeInFadeOut.FadingIn();
+			SceneLoader.Instance.LoadMenuScene();
+			MusicManager.Instance.PlayMenuTrack();
 		}
 	}
 }

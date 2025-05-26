@@ -283,12 +283,14 @@ namespace MyQueenMySelf.Utils
 
         void StartDream()
         {
+            MusicManager.Instance.PlayDreamTrack();
             _isInDream = true;
             SceneLoader.Instance.LoadDreamScene(_currentDay);
         }
 
         public void EndDream(bool isSuccess)
         {
+            MusicManager.Instance.PlayWorldTrack();
             _successes[_currentDay - 1] = isSuccess;
             _currentDay += 1;
             if (_currentDay < 9)
@@ -338,11 +340,13 @@ namespace MyQueenMySelf.Utils
             _isInWin = true;
             ResetForNewDay();
             SceneLoader.Instance.LoadHomeScene();
+            MusicManager.Instance.StopMusic();
         }
 
         void LoadFailScene()
         {
             _isInFail = true;
+            MusicManager.Instance.PlayLoseTrack();
             SceneLoader.Instance.LoadFailScene();
         }
 
@@ -354,6 +358,8 @@ namespace MyQueenMySelf.Utils
             _isInWin = false;
             _isInFail = false;
             _successes = new bool[8];
+
+            MusicManager.Instance.PlayWorldTrack();
 
             SceneLoader.Instance.LoadHomeScene();
         }
