@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,24 +52,36 @@ namespace MyQueenMySelf.Utils
         }
 
 
-        [SerializeField] string planetScene;
-        [SerializeField] string homeScene;
-        [SerializeField] List<string> dreamScenes;
+        [SerializeField] string _planetScene;
+        [SerializeField] string _homeScene;
+        [SerializeField] List<string> _dreamScenes;
+        [SerializeField] string _winScene;
+        [SerializeField] string _failScene;
 
 
         public void LoadPlanetScene()
         {
-            SceneManager.LoadScene(planetScene);
+            SceneManager.LoadScene(_planetScene);
         }
 
         public void LoadHomeScene()
         {
-            SceneManager.LoadScene(homeScene);
+            SceneManager.LoadScene(_homeScene);
         }
 
         public void LoadDreamScene(int currentDay)
         {
-            SceneManager.LoadScene(dreamScenes[currentDay - 1]);
+            SceneManager.LoadScene(_dreamScenes[currentDay - 1]);
+        }
+
+        public void LoadFailScene()
+        {
+            SceneManager.LoadScene(_failScene);
+        }
+
+        public void LoadWinScene()
+        {
+            SceneManager.LoadScene(_winScene);
         }
     }
 }

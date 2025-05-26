@@ -35,6 +35,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dreams/Dream8.unity
     guid: c84d2bd7356530a489773463eb28b53a
+  - enabled: 1
+    path: Assets/Scenes/Fail.unity
+    guid: 18dce9b1fe3790d40ada6c180c2962aa
+  - enabled: 1
+    path: Assets/Scenes/Success.unity
+    guid: 4de6a27d7df36c54bb19ad1dd61f0829
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

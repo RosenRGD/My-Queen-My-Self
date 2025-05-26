@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: bf242eded5a371748a632e6d4ad9ffbe, type: 2}
-  _ground: {fileID: 0}
   _speed: 100
 --- !u!61 &4421845590365974016
 BoxCollider2D:

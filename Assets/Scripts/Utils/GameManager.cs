@@ -45,6 +45,7 @@ namespace MyQueenMySelf.Utils
 
         Dictionary<TodoItemName, TodoItem> _todoItems = new Dictionary<TodoItemName, TodoItem>();
         public Action OnTodoListUpdated;
+        public Action OnFlyAway;
 
         DialogueManager _dialogueManager;
         [SerializeField] Dialogue _alreadyGardenedDialogue;
@@ -58,11 +59,27 @@ namespace MyQueenMySelf.Utils
         [SerializeField] List<Dialogue> _queenRecordings;
         [SerializeField] List<Dialogue> _startDialogue;
 
-        bool hadFirstDialogue = false;
-        bool isInDream = false;
+        [SerializeField] Dialogue _winInitialDialogue;
+        [SerializeField] Dialogue _iNeedRocket;
+        [SerializeField] Dialogue _cantFly;
+
+        bool _hadFirstDialogue = false;
+        bool _isInDream = false;
         public bool IsInDream
         {
-            get { return isInDream; }
+            get { return _isInDream; }
+        }
+
+        bool _isInWin = false;
+        public bool IsInWin
+        {
+            get { return _isInWin; }
+        }
+
+        bool _isInFail = false;
+        public bool IsInFail
+        {
+            get { return _isInFail; }
         }
 
         bool[] _successes = new bool[8];
@@ -105,15 +122,26 @@ namespace MyQueenMySelf.Utils
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             _dialogueManager = FindFirstObjectByType<DialogueManager>();
-            if (!hadFirstDialogue && !isInDream)
+            if (_dialogueManager && !_hadFirstDialogue && !_isInDream && !_isInWin)
             {
                 _dialogueManager.StartDialogue(_startDialogue[_currentDay - 1]);
-                hadFirstDialogue = true;
+                _hadFirstDialogue = true;
+            }
+            else if (_dialogueManager && !_hadFirstDialogue && !_isInDream && _isInWin)
+            {
+                _dialogueManager.StartDialogue(_winInitialDialogue);
+                _hadFirstDialogue = true;
             }
         }
 
         public bool HarvestGarden()
         {
+            if (_isInWin)
+            {
+                _dialogueManager.StartDialogue(_iNeedRocket);
+                return false;
+            }
+
             if (!_todoItems[TodoItemName.Garden].IsCompleted)
             {
                 _todoItems[TodoItemName.Garden].IsCompleted = true;
@@ -129,6 +157,12 @@ namespace MyQueenMySelf.Utils
 
         public bool GatherSolar()
         {
+            if (_isInWin)
+            {
+                _dialogueManager.StartDialogue(_iNeedRocket);
+                return false;
+            }
+
             if (!_todoItems[TodoItemName.CollectSolar].IsCompleted)
             {
                 _todoItems[TodoItemName.CollectSolar].IsCompleted = true;
@@ -144,6 +178,12 @@ namespace MyQueenMySelf.Utils
 
         public bool DepositSolar()
         {
+            if (_isInWin)
+            {
+                _dialogueManager.StartDialogue(_iNeedRocket);
+                return false;
+            }
+
             if (!_todoItems[TodoItemName.DepositSolar].IsCompleted && _todoItems[TodoItemName.CollectSolar].IsCompleted)
             {
                 _todoItems[TodoItemName.DepositSolar].IsCompleted = true;
@@ -164,6 +204,12 @@ namespace MyQueenMySelf.Utils
 
         public bool WatchTV()
         {
+            if (_isInWin)
+            {
+                _dialogueManager.StartDialogue(_iNeedRocket);
+                return false;
+            }
+
             if (!_todoItems[TodoItemName.WatchTV].IsCompleted &&
                 _todoItems[TodoItemName.Garden].IsCompleted &&
                 _todoItems[TodoItemName.CollectSolar].IsCompleted &&
@@ -188,6 +234,12 @@ namespace MyQueenMySelf.Utils
 
         public bool Sleep()
         {
+            if (_isInWin)
+            {
+                _dialogueManager.StartDialogue(_iNeedRocket);
+                return false;
+            }
+
             if (_todoItems[TodoItemName.Garden].IsCompleted &&
                 _todoItems[TodoItemName.CollectSolar].IsCompleted &&
                 _todoItems[TodoItemName.DepositSolar].IsCompleted &&
@@ -205,6 +257,20 @@ namespace MyQueenMySelf.Utils
             }
         }
 
+        public bool FlyAway()
+        {
+            if (_isInWin)
+            {
+                OnFlyAway?.Invoke();
+                return true;
+            }
+            else
+            {
+                _dialogueManager.StartDialogue(_cantFly);
+                return false;
+            }
+        }
+
         public List<TodoItem> GetTodoItems()
         {
             List<TodoItem> todoItems = new();
@@ -217,7 +283,7 @@ namespace MyQueenMySelf.Utils
 
         void StartDream()
         {
-            isInDream = true;
+            _isInDream = true;
             SceneLoader.Instance.LoadDreamScene(_currentDay);
         }
 
@@ -225,7 +291,7 @@ namespace MyQueenMySelf.Utils
         {
             _successes[_currentDay - 1] = isSuccess;
             _currentDay += 1;
-            if (_currentDay < 8)
+            if (_currentDay < 9)
             {
                 ResetForNewDay();
                 SceneLoader.Instance.LoadHomeScene();
@@ -238,8 +304,8 @@ namespace MyQueenMySelf.Utils
 
         void ResetForNewDay()
         {
-            isInDream = false;
-            hadFirstDialogue = false;
+            _isInDream = false;
+            _hadFirstDialogue = false;
             foreach (KeyValuePair<TodoItemName, TodoItem> entry in _todoItems)
             {
                 entry.Value.IsCompleted = false;
@@ -255,30 +321,41 @@ namespace MyQueenMySelf.Utils
                 {
                     amountOfWins += 1;
                 }
-                else
-                {
-                    amountOfWins += 1;
-                }
             }
 
             if (amountOfWins >= 7)
             {
-
+                LoadWinScene();
             }
             else
             {
-
+                LoadFailScene();
             }
         }
 
         void LoadWinScene()
         {
-
+            _isInWin = true;
+            ResetForNewDay();
+            SceneLoader.Instance.LoadHomeScene();
         }
 
         void LoadFailScene()
         {
-            
+            _isInFail = true;
+            SceneLoader.Instance.LoadFailScene();
+        }
+
+        public void PlayNewGame()
+        {
+            _currentDay = 1;
+            _hadFirstDialogue = false;
+            _isInDream = false;
+            _isInWin = false;
+            _isInFail = false;
+            _successes = new bool[8];
+
+            SceneLoader.Instance.LoadHomeScene();
         }
     }
 

@@ -29,12 +29,14 @@ namespace MyQueenMySelf.Planet
         {
             _inputReader.MoveEvent += HandleMove;
             _inputReader.InteractEvent += HandleInteract;
+            GameManager.Instance.OnFlyAway += DestroyAnt;
         }
 
         void OnDisable()
         {
             _inputReader.MoveEvent -= HandleMove;
             _inputReader.InteractEvent -= HandleInteract;
+            GameManager.Instance.OnFlyAway -= DestroyAnt;
         }
 
 
@@ -118,6 +120,11 @@ namespace MyQueenMySelf.Planet
                     }
                 }
             }
+        }
+
+        void DestroyAnt()
+        {
+            Destroy(gameObject);
         }
     }
 }

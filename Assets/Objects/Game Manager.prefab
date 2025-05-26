@@ -71,6 +71,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa19b213d2377014080ae6d48c0400f7, type: 2}
   - {fileID: 11400000, guid: 5c80faa03567cf7489960d0bf47ba554, type: 2}
   - {fileID: 11400000, guid: 269c29f159da921419d6b773cfb616b4, type: 2}
+  _winInitialDialogue: {fileID: 11400000, guid: 3b229e81e130bff469a2ca20e2ff80cd, type: 2}
+  _iNeedRocket: {fileID: 11400000, guid: fd80711d94939a9438e3ad131a3ff333, type: 2}
+  _cantFly: {fileID: 11400000, guid: 78c0ae7be99efe94dbbee740fb210d2e, type: 2}
   _currentDay: 1
 --- !u!114 &7100384985101398099
 MonoBehaviour:
@@ -84,9 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfb0034d9cbd554abf238cbb8bb832e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetScene: Planet
-  homeScene: Home
-  dreamScenes:
+  _planetScene: Planet
+  _homeScene: Home
+  _dreamScenes:
   - Dream1
   - Dream2
   - Dream3
@@ -95,6 +98,8 @@ MonoBehaviour:
   - Dream6
   - Dream7
   - Dream8
+  _winScene: Success
+  _failScene: Fail
 --- !u!114 &8652194007169467484
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -63,7 +63,7 @@ namespace MyQueenMySelf.Utils
 			_tvImage.gameObject.SetActive(false);
 		}
 
-		IEnumerator PlayDialogue(Dialogue dialogue)
+		public IEnumerator PlayDialogue(Dialogue dialogue)
 		{
 			_inputReader.SetDialogue();
 			_namePanel.gameObject.SetActive(true);
