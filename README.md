@@ -1,17 +1,23 @@
 # My Queen, My Self
 *A story game about the routine of a lonely ant.*
 
-This is a story-based game where the player takes control of an ant, learns the truth about the past and determines the fate of this lonely ant.
+This game was created in 2025 by me as part of the [GameDev.tv Game Jam 2025](https://itch.io/jam/gamedevtv-jam-2025)
+
+It is a story-based game where the player takes control of an ant, learns the truth about the past and determines the fate of this lonely ant.
 
 ![Gameplay Demo](./MQMSgif.gif)
 
 You are an ant. You must look after this planet for your Queen.
+
 Day in, day out you must manage the crops and gather energy. All for her.
+
 But not everything is as it seems.
+
 Will you succumb to your dreams or face the world?
 
 There are 2 possible endings.
-A story-based game by Rosen
+
+A story-based game by Evan Jarvis.
 
 [Demo Video]()
 
