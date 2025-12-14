@@ -19,11 +19,11 @@ There are 2 possible endings.
 
 A story-based game by Evan Jarvis.
 
-[Demo Video]()
+[Demo Video](https://www.youtube.com/watch?v=j2goIoYWX9A)
 
-[Full Playthrough Video (Good End)]()
+[Full Playthrough Video (Good End)](https://www.youtube.com/watch?v=E0lVH72hVI4)
 
-[Full Playthrough Video (Bad End)]()
+[Full Playthrough Video (Bad End)](https://www.youtube.com/watch?v=6jcaLztST0w)
 
 ## Features
 - Keyboard controlled movement and actions
